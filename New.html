@@ -234,6 +234,8 @@
         title: 'Vị trí kết thúc', 
         icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' 
     });
+    
+
 
 
     
@@ -254,49 +256,104 @@
     new google.maps.LatLng(21.036165853731504, 105.84839189265871), // Intersection 14
     new google.maps.LatLng(21.036213419285374, 105.847724022614),   // Intersection 15
     new google.maps.LatLng(21.036265991722, 105.84706688140535),    // Intersection 16
-    new google.maps.LatLng(21.033934999862513, 105.84989536671564)  // Intersection 17
-    ];
+    new google.maps.LatLng(21.033934999862513, 105.84989536671564),  // Intersection 17
+    new google.maps.LatLng(21.036310, 105.846537), //Intersection 18
+    new google.maps.LatLng(21.035267, 105.849303),// Intersection 19
+    new google.maps.LatLng(21.036627, 105.848439),// Intersection 20
+    new google.maps.LatLng(21.036546, 105.847788), // Intersection 21    
+    new google.maps.LatLng(21.036501, 105.847068), // Intersection 22
+    new google.maps.LatLng(21.035648, 105.846174), // Intersection 23
+];
     let adj = {};
     for (let i = 0; i < intersections.length; i++)
     {
         adj[intersections[i].toString()] = [];
     }
+    
+    // Adding the connection from Intersection 17 to Intersection 1 as per the instruction
+    
+    adj[intersections[0].toString()].push(intersections[1]); // 1->2
+    adj[intersections[0].toString()].push(intersections[6]); // 1->7
+
+    adj[intersections[1].toString()].push(intersections[2]); // 2->3
+    adj[intersections[1].toString()].push(intersections[5]); // 2->6
+
+    adj[intersections[2].toString()].push(intersections[3]); // 3->4
+    
+
+    adj[intersections[3].toString()].push(intersections[2]); // 4->3
+
+    adj[intersections[3].toString()].push(intersections[4]); // 4->5
+    
+
+    adj[intersections[4].toString()].push(intersections[5]); // 5->6;
+    adj[intersections[4].toString()].push(intersections[3]); // 5->4;
+    adj[intersections[4].toString()].push(intersections[10]); // 5->11;
+    
+
+
+    adj[intersections[6].toString()].push(intersections[5]); // 7->6;
+    adj[intersections[6].toString()].push(intersections[7]); // 7->8;
+
+
+    adj[intersections[7].toString()].push(intersections[8]); // 8->9;
+    adj[intersections[7].toString()].push(intersections[12]); // 8->13;
+
+    adj[intersections[5].toString()].push(intersections[4]); // 6->5;
+    adj[intersections[5].toString()].push(intersections[6]); // 6->7;
+    adj[intersections[5].toString()].push(intersections[1]); // 6->2;
+    adj[intersections[5].toString()].push(intersections[8]); // 6->9;
+
+    adj[intersections[6].toString()].push(intersections[7]); // 7->8;
+
+    adj[intersections[7].toString()].push(intersections[12]); // 8->13;
+
+    adj[intersections[8].toString()].push(intersections[5]); // 9->6;
+    adj[intersections[8].toString()].push(intersections[7]); // 9->8;
+    adj[intersections[8].toString()].push(intersections[11]); // 9->12;
+    
+    adj[intersections[9].toString()].push(intersections[22]); // 10->23;
+    adj[intersections[9].toString()].push(intersections[10]); // 10->11;
+
+    adj[intersections[10].toString()].push(intersections[4]); // 11->5;
+    adj[intersections[10].toString()].push(intersections[15]); // 11->16;
+    adj[intersections[10].toString()].push(intersections[9]); // 11->10;
+    adj[intersections[10].toString()].push(intersections[11]); // 11->12;
+
+
+    adj[intersections[11].toString()].push(intersections[12]); // 12->13;
+    adj[intersections[11].toString()].push(intersections[8]); // 12->9;
+    adj[intersections[11].toString()].push(intersections[14]); // 12->15;
+
+    adj[intersections[12].toString()].push(intersections[18]); // 13->19;
+    adj[intersections[12].toString()].push(intersections[13]); // 13->14;
+    adj[intersections[12].toString()].push(intersections[11]); // 13->12;
+
+    adj[intersections[13].toString()].push(intersections[19]); // 14->20;
+    adj[intersections[13].toString()].push(intersections[14]); // 14->15;
+
+    adj[intersections[14].toString()].push(intersections[11]); // 15->12;
+    adj[intersections[14].toString()].push(intersections[15]); // 15->16;
+
+    adj[intersections[14].toString()].push(intersections[20]); // 15->21;
+
+    adj[intersections[15].toString()].push(intersections[10]); // 16->11;
+    adj[intersections[15].toString()].push(intersections[21]); // 16->22;
+
     adj[intersections[16].toString()].push(intersections[0]); // 17 -> 1
-    adj[intersections[15].toString()].push(intersections[14], intersections[10]); // 16 -> 15, 11
-    adj[intersections[14].toString()].push(intersections[15], intersections[11], intersections[13]); // 15 -> 16, 12, 14
-    adj[intersections[13].toString()].push(intersections[14], intersections[12]); // 14 -> 15, 13
-    adj[intersections[12].toString()].push(intersections[13], intersections[11], intersections[7]); // 13 -> 14, 12, 8
-    adj[intersections[11].toString()].push(intersections[12], intersections[14], intersections[10], intersections[8]); // 12 -> 13, 15, 11, 9
-    adj[intersections[10].toString()].push(intersections[9], intersections[15], intersections[11], intersections[4]); // 11 -> 10, 16, 12, 5
-    adj[intersections[9].toString()].push(intersections[10]); // 10 -> 11
-    adj[intersections[8].toString()].push(intersections[11], intersections[7], intersections[5]); // 9 -> 12, 8, 6
-    adj[intersections[7].toString()].push(intersections[8], intersections[12], intersections[6]); // 8 -> 9, 13, 7
-    adj[intersections[6].toString()].push(intersections[0], intersections[5], intersections[7]); // 7 -> 1, 6, 8
-    adj[intersections[5].toString()].push(intersections[6], intersections[8], intersections[4], intersections[1]); // 6 -> 7, 9, 5, 2
-    adj[intersections[4].toString()].push(intersections[3], intersections[5], intersections[10]); // 5 -> 4, 6, 11
-    adj[intersections[3].toString()].push(intersections[4], intersections[2]); // 4 -> 5, 3
-    adj[intersections[2].toString()].push(intersections[1], intersections[3]); // 3 -> 2, 4
-    adj[intersections[1].toString()].push(intersections[2], intersections[5], intersections[0]); // 2 -> 3, 6, 1
-    adj[intersections[0].toString()].push(intersections[1], intersections[6], intersections[16]); // 1 -> 2, 7, 17
 
-    // Xóa các mối quan hệ hai chiều không đúng cho các tuyến đường một chiều
-    adj[intersections[0].toString()] = adj[intersections[0].toString()].filter(intersection => intersection !== intersections[6]); // Xóa 1 -> 7
-    adj[intersections[6].toString()] = adj[intersections[6].toString()].filter(intersection => intersection !== intersections[0]); // Xóa 7 -> 1
-    adj[intersections[7].toString()] = adj[intersections[7].toString()].filter(intersection => intersection !== intersections[12]); // Xóa 8 -> 13
-    adj[intersections[12].toString()] = adj[intersections[12].toString()].filter(intersection => intersection !== intersections[7]); // Xóa 13 -> 8
-    adj[intersections[13].toString()] = adj[intersections[13].toString()].filter(intersection => intersection !== intersections[14]); // Xóa 14 -> 15
-    adj[intersections[14].toString()] = adj[intersections[14].toString()].filter(intersection => intersection !== intersections[13]); // Xóa 15 -> 14
-    adj[intersections[10].toString()] = adj[intersections[10].toString()].filter(intersection => intersection !== intersections[11]); // Xóa 11 -> 12
-    adj[intersections[11].toString()] = adj[intersections[11].toString()].filter(intersection => intersection !== intersections[10]); // Xóa 12 -> 11
+    adj[intersections[20].toString()].push(intersections[14]); // 21->15;
 
-    //7-8-
+    adj[intersections[21].toString()].push(intersections[15]); // 22->16;
+
+    adj[intersections[22].toString()].push(intersections[9]); // 23->10;
 
     // Display intersection points as red dots on the map with hover functionality to show coordinates
     intersections.forEach(function(intersection, index) {
       var marker = new google.maps.Marker({
         position: intersection,
         map: map,
-        icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+        icon: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png'
       });
       var infowindow = new google.maps.InfoWindow({
         content: 'Intersection ' + (index + 1) + ':<br>Latitude: ' + intersection.lat().toFixed(6) + '<br>Longitude: ' + intersection.lng().toFixed(6)
